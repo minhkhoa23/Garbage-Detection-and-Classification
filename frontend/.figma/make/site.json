@@ -1,0 +1,10 @@
+{
+  "description": "Upload images to detect and classify multiple types of waste with bounding boxes and confidence scores for efficient trash identification.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
