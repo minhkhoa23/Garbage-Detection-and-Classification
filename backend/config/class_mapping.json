@@ -1,0 +1,32 @@
+{
+  "BIODEGRADABLE": {
+    "label": "Biodegradable",
+    "category": "Organic",
+    "color": "#65a30d"
+  },
+  "CARDBOARD": {
+    "label": "Cardboard",
+    "category": "Paper",
+    "color": "#d97706"
+  },
+  "GLASS": {
+    "label": "Glass",
+    "category": "Glass",
+    "color": "#7c3aed"
+  },
+  "METAL": {
+    "label": "Metal",
+    "category": "Metal",
+    "color": "#0891b2"
+  },
+  "PAPER": {
+    "label": "Paper",
+    "category": "Paper",
+    "color": "#d97706"
+  },
+  "PLASTIC": {
+    "label": "Plastic",
+    "category": "Plastic",
+    "color": "#15803d"
+  }
+}
