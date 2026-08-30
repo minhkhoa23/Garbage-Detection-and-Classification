@@ -1,6 +1,6 @@
 # Garbage Detection and Classification
 
-Ứng dụng web nhận diện và phân loại rác từ ảnh. Người dùng tải ảnh lên giao diện React, backend FastAPI chạy mô hình YOLO từ checkpoint `weights/best.pt`, sau đó trả về danh sách vật thể rác được phát hiện kèm bounding box, nhãn, nhóm phân loại, màu hiển thị và độ tin cậy.
+Ứng dụng web nhận diện và phân loại rác từ ảnh. Người dùng tải ảnh lên giao diện React, backend FastAPI chạy mô hình DINOv3 ViT-B/16 + Faster R-CNN từ checkpoint `weights/DINOv3_ViT.pth`, sau đó trả về danh sách vật thể rác được phát hiện kèm bounding box, nhãn, nhóm phân loại, màu hiển thị và độ tin cậy.
 
 ## Tính năng chính
 
@@ -18,9 +18,9 @@ Backend:
 - Python
 - FastAPI
 - Uvicorn
-- Ultralytics YOLO
 - OpenCV
 - PyTorch
+- TorchVision Faster R-CNN
 
 Frontend:
 
@@ -39,7 +39,7 @@ Frontend:
 │   │   ├── main.py                 # FastAPI app và các endpoint
 │   │   ├── config.py               # Đọc cấu hình từ backend/.env
 │   │   ├── class_catalog.py        # Mapping class model sang label/category/color
-│   │   └── services/detector.py    # Load YOLO model và inference
+│   │   └── services/detector.py    # Load DINOv3 ViT + Faster R-CNN và inference
 │   ├── config/class_mapping.json   # Cấu hình nhãn hiển thị
 │   ├── test/test_api.py            # Test API backend
 │   ├── .env.example                # Mẫu biến môi trường backend
@@ -57,7 +57,7 @@ Frontend:
 ├── notebooks/
 │   └── garbage_detection_pipeline.ipynb
 ├── weights/
-│   └── best.pt                     # Checkpoint YOLO dùng để detect rác
+│   └── DINOv3_ViT.pth              # Checkpoint DINOv3 ViT-B/16 + Faster R-CNN
 └── README.md
 ```
 
@@ -68,7 +68,7 @@ Cài sẵn các công cụ sau:
 - Python 3.11 hoặc mới hơn, hoặc Conda/Miniconda để tạo môi trường Python 3.11.
 - Node.js 20 hoặc mới hơn, khuyến nghị Node.js 22 LTS.
 - npm, đi kèm khi cài Node.js.
-- Model checkpoint tại `weights/best.pt`.
+- Model checkpoint tại `weights/DINOv3_ViT.pth`.
 
 Lưu ý: `backend/requirements.txt` đang pin bản PyTorch CUDA 11.8 (`torch==2.7.1+cu118`, `torchvision==0.22.1+cu118`). Nếu máy không dùng GPU NVIDIA hoặc cài dependency bị lỗi ở bước PyTorch, xem phần "Lỗi thường gặp" bên dưới.
 
@@ -208,11 +208,11 @@ APP_NAME=Garbage Detection API
 APP_VERSION=1.0.0
 API_PREFIX=/api/v1
 
-MODEL_PATH=weights/best.pt
+MODEL_PATH=weights/DINOv3_ViT.pth
 CLASS_MAPPING_PATH=backend/config/class_mapping.json
 MODEL_DEVICE=
 IMAGE_SIZE=640
-DEFAULT_CONFIDENCE=0.30
+DEFAULT_CONFIDENCE=0.50
 MAX_UPLOAD_MB=20
 ALLOWED_IMAGE_TYPES_CSV=image/jpeg,image/png,image/webp
 
@@ -226,7 +226,7 @@ SERVER_WORKERS=1
 
 Gợi ý cấu hình `MODEL_DEVICE`:
 
-- Để trống: Ultralytics tự chọn thiết bị phù hợp.
+- Để trống: backend tự dùng CUDA nếu có, nếu không sẽ dùng CPU.
 - `cpu`: ép chạy bằng CPU.
 - `0`: dùng GPU CUDA đầu tiên nếu máy có GPU NVIDIA và CUDA phù hợp.
 
@@ -350,7 +350,7 @@ Sau đó chạy lại backend từ thư mục gốc project.
 Kiểm tra file model có tồn tại:
 
 ```text
-weights/best.pt
+weights/DINOv3_ViT.pth
 ```
 
 Nếu đặt model ở vị trí khác, sửa `MODEL_PATH` trong `backend/.env`.
@@ -413,7 +413,7 @@ Sau khi sửa `.env`, tắt và chạy lại backend.
 
 ## Ghi chú phát triển
 
-- Luôn chạy backend từ thư mục gốc project để import package `backend` và resolve đường dẫn `weights/best.pt` đúng.
-- File `backend/config/class_mapping.json` cần khớp với class name trong checkpoint YOLO.
+- Luôn chạy backend từ thư mục gốc project để import package `backend` và resolve đường dẫn `weights/DINOv3_ViT.pth` đúng.
+- File `backend/config/class_mapping.json` cần khớp với class name trong checkpoint DINOv3 + Faster R-CNN.
 - Frontend không hard-code endpoint predict, mà lấy từ `GET /api/v1/config`.
 - Khi thêm class mới vào model, cập nhật cả checkpoint và `backend/config/class_mapping.json`.
