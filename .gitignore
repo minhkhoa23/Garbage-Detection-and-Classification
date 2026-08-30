@@ -1,0 +1,74 @@
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+backend/.venv/
+
+# Node / frontend
+node_modules/
+frontend/node_modules/
+dist/
+build/
+frontend/dist/
+frontend/build/
+.vite/
+*.tsbuildinfo
+
+# Logs and temporary files
+logs/
+*.log
+*-debug.log*
+.tmp-*/
+tmp/
+temp/
+
+# Model checkpoints and exported models
+weights/
+*.pt
+*.pth
+*.pkl
+*.pickle
+*.ckpt
+*.safetensors
+*.onnx
+*.engine
+*.tflite
+*.pb
+*.h5
+
+# Datasets, training runs, and benchmark outputs
+datasets/
+data/
+runs/
+outputs/
+checkpoints/
+benchmark_results/
+outputs_*/
+*_coco_*/
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

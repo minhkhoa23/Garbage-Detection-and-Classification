@@ -50,8 +50,6 @@ torch==2.7.1+cu118
 torchvision==0.22.1+cu118
 typing-inspection==0.4.4
 typing_extensions==4.16.0
-ultralytics==8.4.115
-ultralytics-thop==2.1.6
 urllib3==2.7.0
 uvicorn==0.52.4
 watchfiles==1.2.0
